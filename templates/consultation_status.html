@@ -1,0 +1,251 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Consultations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .status-badge {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+        }
+        .consultation-card {
+            border-left: 5px solid #007bff;
+            transition: all 0.3s;
+        }
+        .consultation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        .status-pending {
+            border-left-color: #ffc107;
+        }
+        .status-approved {
+            border-left-color: #28a745;
+        }
+        .status-rejected {
+            border-left-color: #dc3545;
+        }
+        .doctor-info {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .meeting-section {
+            background-color: #f0f8ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1>📋 My Consultation Requests</h1>
+                <p class="text-muted">Track your consultation requests and doctor approvals</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="/predict/" class="btn btn-primary">Request New Consultation</a>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        {% if consultations %}
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card stats-card bg-light">
+                    <h5>{{ consultations|length }}</h5>
+                    <p class="text-muted mb-0">Total Requests</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card bg-light">
+                    <h5>{{ consultations|dictsort:"status"|length }}</h5>
+                    <p class="text-muted mb-0">Pending</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card bg-success text-white">
+                    <h5>
+                        {% with approved=consultations|dictsort:"status" %}
+                            {{ approved|length }}
+                        {% endwith %}
+                    </h5>
+                    <p class="mb-0">Approved</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card bg-danger text-white">
+                    <h5>0</h5>
+                    <p class="mb-0">Rejected</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if consultations %}
+            {% for consultation in consultations %}
+            <div class="card consultation-card status-{{ consultation.status|lower }} mb-4">
+                <div class="card-header bg-light">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5 class="mb-0">Consultation Request #{{ consultation.id }}</h5>
+                            <small class="text-muted">Submitted: {{ consultation.created_at|date:"M d, Y H:i" }}</small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            {% if consultation.status == 'Pending' %}
+                                <span class="badge bg-warning status-badge text-dark">⏳ Pending Review</span>
+                            {% elif consultation.status == 'Approved' %}
+                                <span class="badge bg-success status-badge">✅ Approved</span>
+                            {% else %}
+                                <span class="badge bg-danger status-badge">❌ Rejected</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Prediction Summary -->
+                    <h6 class="card-subtitle mb-3">📊 Your Prediction Information</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <strong>Prediction Result:</strong> 
+                                <strong class="text-danger">{{ consultation.prediction.prediction_result }}</strong>
+                            </p>
+                            <p class="mb-2">
+                                <strong>Risk Probability:</strong> 
+                                <span class="badge bg-warning">{{ consultation.prediction.probability_stroke|floatformat:0 }}%</span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Age:</strong> {{ consultation.prediction.age }}</p>
+                            <p class="mb-0"><strong>BMI:</strong> {{ consultation.prediction.bmi|floatformat:1 }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Your Message -->
+                    <h6 class="card-subtitle mb-2">💬 Your Message/Symptoms</h6>
+                    <p class="bg-light p-3 rounded mb-3">{{ consultation.message }}</p>
+
+                    <!-- Status-Specific Content -->
+                    {% if consultation.status == 'Pending' %}
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading">⏳ Waiting for Admin Review</h6>
+                        <p class="mb-0">
+                            Your consultation request is being reviewed by our admin team. 
+                            Once reviewed, they will assign a qualified doctor to your case. 
+                            You will receive an email notification when a doctor is assigned.
+                        </p>
+                    </div>
+
+                    {% elif consultation.status == 'Approved' %}
+                    <!-- Doctor Information -->
+                    <div class="doctor-info">
+                        <h6 class="mb-3">👨‍⚕️ Assigned Doctor</h6>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="mb-1"><strong>Doctor Name:</strong> Dr. {{ consultation.doctor_name }}</p>
+                                {% if consultation.doctor %}
+                                    <p class="mb-1"><strong>Specialization:</strong> {{ consultation.doctor.specialization }}</p>
+                                    <p class="mb-1"><strong>Qualification:</strong> {{ consultation.doctor.get_qualification_display }}</p>
+                                    <p class="mb-0"><strong>Experience:</strong> {{ consultation.doctor.years_of_experience }} years</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <p class="mb-0">
+                                    <span class="badge bg-light text-dark">Doctor Assigned</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doctor's Consultation Message -->
+                    <h6 class="card-subtitle mb-2">💊 Doctor's Consultation Advice</h6>
+                    <div class="bg-light p-3 rounded mb-3">
+                        {% if consultation.consultation_message %}
+                            {{ consultation.consultation_message|linebreaks }}
+                        {% else %}
+                            <p class="text-muted mb-0">Doctor will add consultation advice shortly.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Meeting Link -->
+                    {% if consultation.meeting_link %}
+                    <div class="meeting-section">
+                        <h6 class="mb-3">📹 Video Consultation Setup</h6>
+                        <p class="mb-2"><strong>Meeting Link:</strong></p>
+                        <a href="{{ consultation.meeting_link }}" target="_blank" class="btn btn-primary btn-lg w-100">
+                            🔗 Join Video Consultation
+                        </a>
+                        <small class="text-muted d-block mt-2">Click to join the video call with your doctor</small>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p class="mb-0">📅 <strong>Meeting Link:</strong> Will be provided by the doctor soon</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Follow-up -->
+                    <div class="alert alert-success mt-3">
+                        <h6 class="alert-heading">✅ Consultation Approved</h6>
+                        <p class="mb-0">
+                            Your consultation has been approved! Please follow the doctor's advice carefully. 
+                            If you need further assistance, contact the doctor through the meeting link or email.
+                        </p>
+                    </div>
+
+                    {% else %}
+                    <!-- Rejected Status -->
+                    <div class="alert alert-danger">
+                        <h6 class="alert-heading">❌ Consultation Request Rejected</h6>
+                        <p class="mb-0">
+                            Unfortunately, your consultation request could not be approved at this time. 
+                            Please contact support for more information or submit a new consultation request.
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Last Updated -->
+                    <small class="text-muted d-block mt-3">
+                        Last Updated: {{ consultation.updated_at|date:"M d, Y H:i" }}
+                    </small>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="alert alert-info text-center py-5">
+            <h5>📭 No Consultation Requests Yet</h5>
+            <p class="mb-3">You haven't requested any consultations.</p>
+            <a href="/predict/" class="btn btn-primary">Request a Doctor Consultation</a>
+        </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="/predict/" class="btn btn-outline-secondary">Back to Prediction</a>
+            <a href="/index/" class="btn btn-outline-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% include 'footer.html' %}
+{% endblock %}

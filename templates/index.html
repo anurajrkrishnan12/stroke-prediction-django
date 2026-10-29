@@ -1,0 +1,351 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+
+            <section class="hero" id="hero">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="{% static 'images/slider/portrait-successful-mid-adult-doctor-with-crossed-arms.jpg' %}" class="img-fluid" alt="">
+                                    </div>
+
+                                    <div class="carousel-item">
+                                        <img src="{% static 'images/slider/young-asian-female-dentist-white-coat-posing-clinic-equipment.jpg' %}" class="img-fluid" alt="">
+                                    </div>
+
+                                    <div class="carousel-item">
+                                        <img src="{% static 'images/slider/doctor-s-hand-holding-stethoscope-closeup.jpg' %}" class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="heroText d-flex flex-column justify-content-center">
+
+                                <h1 class="mt-auto mb-2">
+                                    Predict & Prevent
+                                    <div class="animated-info">
+                                        <span class="animated-item">Stroke</span>
+                                        <span class="animated-item">Risk</span>
+                                        <span class="animated-item">Early</span>
+                                    </div>
+                                </h1>
+
+                                <p class="mb-4">Our AI-powered stroke prediction system helps you assess your risk factors and take preventive measures. Early detection can save lives.</p>
+
+                                <div class="heroLinks d-flex flex-wrap align-items-center">
+                                    <a href="#booking" class="btn btn-primary me-3">Get Started</a>
+
+                                    <p class="contact-phone mb-0"><i class="bi-phone"></i> 010-020-0340</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding" id="about">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <h2 class="mb-lg-3 mb-3">About Stroke Prediction</h2>
+
+                            <p>Stroke is a leading cause of death and disability worldwide. Our advanced machine learning system analyzes key health indicators to predict stroke risk, enabling early intervention and prevention.</p>
+
+                            <p>Using XGBoost algorithm trained on comprehensive healthcare data, our model provides accurate risk assessments based on factors like age, hypertension, heart disease, smoking habits, and more.</p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-5 col-12 mx-auto">
+                            <div class="featured-circle bg-white shadow-lg d-flex justify-content-center align-items-center">
+                                <p class="featured-text"><span class="featured-number">97</span>%<br> Accuracy</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-6 ps-0">
+                            <img src="{% static 'images/gallery/medium-shot-man-getting-vaccine.jpg' %}" class="img-fluid galleryImage" alt="get a vaccine" title="get a vaccine for yourself">
+                        </div>
+
+                        <div class="col-lg-6 col-6 pe-0">
+                            <img src="{% static 'images/gallery/female-doctor-with-presenting-hand-gesture.jpg' %}" class="img-fluid galleryImage" alt="wear a mask" title="wear a mask to protect yourself">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding pb-0" id="timeline">
+                <div class="container">
+                    <div class="row">
+
+                        <h2 class="text-center mb-lg-5 mb-4">Stroke Prevention Steps</h2>
+                        
+                        <div class="timeline">
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes">
+                                <div class="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Know Your Risk Factors</h3>
+
+                                    <p>Understand the key factors that increase stroke risk: high blood pressure, smoking, diabetes, high cholesterol, and family history.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-patch-check-fill timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 ps-md-3 ps-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>Step 1</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes my-lg-5 my-4">
+                                <div class="col-9 col-md-5 ms-md-4 ms-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Get Regular Check-ups</h3>
+
+                                    <p>Monitor your blood pressure, cholesterol levels, and overall health regularly. Early detection of risk factors is crucial.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-book timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 pe-md-3 pe-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>Step 2</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes">
+                                <div class="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Use Our Prediction Tool</h3>
+
+                                    <p>Input your health data into our AI-powered system to get a personalized stroke risk assessment and recommendations.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-file-medical timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 ps-md-3 ps-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>Step 3</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes my-lg-5 my-4">
+                                <div class="col-9 col-md-5 ms-md-4 ms-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Take Preventive Action</h3>
+                                    
+                                    <p>Based on your risk assessment, adopt healthy lifestyle changes, manage medications, and follow medical advice to reduce stroke risk.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-globe timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 pe-md-3 pe-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>Step 4</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes">
+                                <div class="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Monitor & Reassess</h3>
+
+                                    <p>Regularly reassess your risk and track your progress. Prevention is an ongoing process that saves lives.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-person timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 ps-md-3 ps-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>Step 5</time>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding pb-0" id="reviews">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <h2 class="text-center mb-lg-5 mb-4">User Testimonials</h2>
+
+                            <div class="owl-carousel reviews-carousel">
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Life-saving early warning!</strong></p>
+
+                                    <p class="reviews-text w-100">The stroke prediction tool helped me identify my risk factors early. I made lifestyle changes and my doctor was able to intervene before any serious issues.</p>
+
+                                    <img src="{% static 'images/reviews/beautiful-woman-face-portrait-brown-background.jpeg' %}" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Sarah Johnson</strong>
+
+                                        <span class="text-muted">User</span>
+                                    </figcaption>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Accurate and reliable!</strong></p>
+
+                                    <p class="reviews-text w-100">As a healthcare professional, I appreciate the accuracy of this prediction model. It provides valuable insights for patient risk assessment.</p>
+
+                                    <img src="{% static 'images/reviews/senior-man-wearing-white-face-mask-covid-19-campaign-with-design-space.jpeg' %}" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Dr. Michael Chen</strong>
+
+                                        <span class="text-muted">Physician</span>
+                                    </figcaption>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Easy to use and informative!</strong></p>
+
+                                    <p class="reviews-text w-100">The interface is user-friendly and the results are presented clearly. It motivated me to take my health more seriously.</p>
+
+                                    <img src="{% static 'images/reviews/portrait-british-woman.jpeg' %}" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Emma Davis</strong>
+
+                                        <span class="text-muted">User</span>
+                                    </figcaption>
+                                </figure>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                          <i class="bi-star-fill"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Very good app!</strong></p>
+
+                                    <p class="reviews-text w-100">Simple, informative, and well designed. The risk prediction feels thoughtful and the app makes a serious topic easy to understand. Definitely useful for health awareness.</p>
+
+                                    <img src="{% static 'images/reviews/ameen.jpg' %}" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>AMEEN MUHAMMED</strong>
+
+                                        <span class="text-muted">User</span>
+                                    </figcaption>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Proactive health management!</strong></p>
+
+                                    <p class="reviews-text w-100">This tool empowered me to take control of my health. The detailed risk assessment helped me understand what changes I needed to make.</p>
+
+                                    <img src="{% static 'images/reviews/woman-wearing-mask-face-closeup-covid-19-green-background.jpeg' %}" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Lisa Rodriguez</strong>
+
+                                        <span class="text-muted">User</span>
+                                    </figcaption>
+                                </figure>
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding" id="booking">
+                <div class="container">
+                    <div class="row">
+                    
+                        <div class="col-lg-8 col-12 mx-auto">
+                            <div class="booking-form">
+                                
+                                <h2 class="text-center mb-lg-3 mb-2">Get Your Stroke Risk Assessment</h2>
+                            
+                                <div class="text-center mb-4">
+                                    <p>Ready to take control of your health? Click below to access our comprehensive stroke prediction tool.</p>
+                                    <a href="#" class="btn btn-primary btn-lg">Start Prediction</a>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-4 text-center">
+                                        <i class="bi bi-shield-check" style="font-size: 3rem; color: #007bff;"></i>
+                                        <h5 class="mt-2">Accurate</h5>
+                                        <p>97% accuracy with XGBoost</p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <i class="bi bi-lightning" style="font-size: 3rem; color: #28a745;"></i>
+                                        <h5 class="mt-2">Fast</h5>
+                                        <p>Instant results in seconds</p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <i class="bi bi-lock" style="font-size: 3rem; color: #6c757d;"></i>
+                                        <h5 class="mt-2">Private</h5>
+                                        <p>Your data stays secure</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+       {% include 'footer.html' %}
+       {% endblock %}

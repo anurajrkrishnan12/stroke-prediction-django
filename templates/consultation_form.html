@@ -1,0 +1,81 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Doctor Consultation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Request Doctor Consultation</h1>
+
+        {% if success_message %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> {{ success_message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="mt-4">
+            <a href="/consultation_status/" class="btn btn-primary">View Your Consultations</a>
+            <a href="/predict/" class="btn btn-outline-secondary">Back to Prediction</a>
+        </div>
+        {% else %}
+
+        {% if prediction %}
+        <div class="alert alert-info mb-4">
+            <h5>Prediction Information</h5>
+            <p><strong>Prediction Result:</strong> {{ prediction.prediction_result }}</p>
+            <p><strong>Risk Probability:</strong> {{ prediction.probability_stroke|floatformat:0 }}%</p>
+            <p><strong>Date:</strong> {{ prediction.created_at|date:"M d, Y H:i" }}</p>
+        </div>
+        {% endif %}
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="patient_name" class="form-label">Patient Name</label>
+                        <input type="text" class="form-control" id="patient_name" name="patient_name" 
+                               value="{{ user.name }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="{{ user.email }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message / Symptoms Description</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" 
+                                  placeholder="Please describe your symptoms, concerns, and why you need consultation..." required></textarea>
+                        <small class="form-text text-muted">Be as detailed as possible to help the doctor understand your condition.</small>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/predict/" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Submit Consultation Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="/predict/" class="btn btn-outline-secondary">back</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% include 'footer.html' %}
+{% endblock %}

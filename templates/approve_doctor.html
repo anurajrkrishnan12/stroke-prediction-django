@@ -1,0 +1,122 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Doctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Approve Doctor Registration</h1>
+
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Doctor Information -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">🩺 Doctor Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">
+                            <strong>Name:</strong> {{ doctor.name }}<br>
+                            <strong>Email:</strong> {{ doctor.email }}<br>
+                            <strong>Phone:</strong> {{ doctor.phone_number }}<br>
+                            <strong>Qualification:</strong> {{ doctor.get_qualification_display }}<br>
+                            <strong>Specialization:</strong> {{ doctor.specialization }}<br>
+                            <strong>Years of Experience:</strong> {{ doctor.years_of_experience }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Proof Document -->
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">📄 Proof Document</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">
+                            <strong>File:</strong> <a href="{{ doctor.proof_document.url }}" target="_blank">
+                                📥 Download {{ doctor.proof_document.name|truncatewords:1 }}
+                            </a>
+                        </p>
+                        <div class="bg-light p-3 rounded">
+                            <iframe src="{{ doctor.proof_document.url }}" style="width: 100%; height: 400px; border: none;"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approval Confirmation -->
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">✓ Approve Registration</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-success">
+                            <h5>Ready to Approve?</h5>
+                            <p>Once approved, Dr. {{ doctor.name }} will be able to login and access their doctor dashboard to manage consultations.</p>
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="/admin_doctor_approvals/" class="btn btn-outline-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-success btn-lg">✓ Approve Doctor</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Info -->
+            <div class="col-md-4">
+                <div class="card bg-light mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">📋 Registration Summary</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">
+                            <strong>Registration ID:</strong><br>
+                            {{ doctor.id }}
+                        </p>
+                        <p class="mb-2">
+                            <strong>Applied On:</strong><br>
+                            {{ doctor.created_at|date:"M d, Y H:i" }}
+                        </p>
+                        <p class="mb-0">
+                            <strong>Status:</strong><br>
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="mb-0">ℹ️ Note</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="small mb-0">
+                            After approval, this doctor can login using their email and password. 
+                            They will be able to access the doctor dashboard and manage assigned consultations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="/admin_doctor_approvals/" class="btn btn-outline-secondary">Back to Doctor Approvals</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% include 'footer.html' %}
+{% endblock %}

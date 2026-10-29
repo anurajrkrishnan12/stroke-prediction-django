@@ -1,0 +1,43 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<section class="section-padding" id="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12 mx-auto">
+                <div class="booking-form">
+                    <h2 class="text-center mb-lg-3 mb-2">Login</h2>
+                    
+                    {% if error_message %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>✗ Error!</strong> {{ error_message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    <form role="form" action="addlogin" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="col-12 mb-3 text-center">
+                                <button type="submit" class="form-control" id="submit-button">Login</button>
+                            </div>
+                            <div class="col-12 mb-3 text-center">
+                                <a href="/forgot_password/" class="btn btn-link btn-sm">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+{% endblock %}

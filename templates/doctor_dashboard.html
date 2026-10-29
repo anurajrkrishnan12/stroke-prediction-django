@@ -1,0 +1,171 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .doctor-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .consultation-card {
+            border-left: 5px solid #28a745;
+            transition: transform 0.2s;
+        }
+        .consultation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .patient-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Doctor Header -->
+        <div class="doctor-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1>👋 Welcome Dr. {{ doctor.name }}</h1>
+                    <p class="mb-0">{{ doctor.specialization }} | {{ doctor.qualification }}</p>
+                    <p class="mb-0">Experience: {{ doctor.years_of_experience }} years</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="/doctor_logout/" class="btn btn-light">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consultation Statistics -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-success">{{ consultations.count }}</h3>
+                        <p class="card-text">Assigned Consultations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-info">{{ consultations|dictsort:"status"|length }}</h3>
+                        <p class="card-text">Total Responses</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-warning">{{ doctor.email }}</h3>
+                        <p class="card-text">Contact</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consultations -->
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">📋 My Assigned Consultations</h5>
+            </div>
+            <div class="card-body">
+                {% if consultations %}
+                    {% for consultation in consultations %}
+                    <div class="card consultation-card mb-4">
+                        <div class="card-header bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="mb-0">Consultation #{{ consultation.id }} - {{ consultation.patient_name }}</h5>
+                                    <small class="text-muted">Assigned: {{ consultation.updated_at|date:"M d, Y H:i" }}</small>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <a href="/update_consultation/{{ consultation.id }}/" class="btn btn-sm btn-primary">
+                                        ✏️ Add/Edit Response
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <h6><strong>Patient Information</strong></h6>
+                            <div class="patient-info">
+                                <p class="mb-1"><strong>Name:</strong> {{ consultation.patient_name }}</p>
+                                <p class="mb-1"><strong>Email:</strong> {{ consultation.email }}</p>
+                                <p class="mb-0"><strong>Phone:</strong> {{ consultation.user.phone_number }}</p>
+                            </div>
+
+                            <h6><strong>Prediction Details</strong></h6>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Gender:</strong> {{ consultation.prediction.gender }}</p>
+                                    <p class="mb-1"><strong>Age:</strong> {{ consultation.prediction.age }}</p>
+                                    <p class="mb-1"><strong>BMI:</strong> {{ consultation.prediction.bmi|floatformat:1 }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Prediction Result:</strong> <strong>{{ consultation.prediction.prediction_result }}</strong></p>
+                                    <p class="mb-1"><strong>Risk Level:</strong> {{ consultation.prediction.probability_stroke|floatformat:0 }}%</p>
+                                    <p class="mb-0"><strong>Glucose Level:</strong> {{ consultation.prediction.avg_glucose_level|floatformat:1 }}</p>
+                                </div>
+                            </div>
+
+                            <h6><strong>Patient Message</strong></h6>
+                            <div class="bg-light p-3 rounded mb-3">
+                                {{ consultation.message }}
+                            </div>
+
+                            {% if consultation.consultation_message %}
+                            <div class="alert alert-success">
+                                <h6><strong>Your Response</strong></h6>
+                                <p class="mb-2">{{ consultation.consultation_message }}</p>
+                                {% if consultation.meeting_link %}
+                                <p class="mb-0">
+                                    <a href="{{ consultation.meeting_link }}" target="_blank" class="btn btn-sm btn-primary">
+                                        🔗 Join Video Consultation
+                                    </a>
+                                </p>
+                                {% endif %}
+                            </div>
+                            {% else %}
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No response added yet.</strong> 
+                                <a href="/update_consultation/{{ consultation.id }}/" class="btn btn-sm btn-warning">
+                                    Add Your Response
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="alert alert-info">
+                    <p class="mb-0">No consultations assigned to you yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="/index/" class="btn btn-outline-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% include 'footer.html' %}
+{% endblock %}
